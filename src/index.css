@@ -23,6 +23,10 @@ p {
   text-align: center;
 }
 
+.inputNumber {
+  width: 50px;
+}
+
 .manageRow {
   display: flex;
   justify-content: space-between;
@@ -38,7 +42,7 @@ p {
 
 .buttonManager {
   display: flex;
-  gap: 30px;
+  gap: 10px;
 }
 
 .table {
@@ -82,4 +86,24 @@ p {
 .arrow {
   text-align: right;
   margin-top: -35px;
+}
+
+.timerButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer {
+  text-align: center;
+  margin: 3rem 0;
+  font-size: 25px;
+  border-radius: 50%;
+  border: 1px solid white;
+  padding: 20px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -15,6 +15,7 @@ const Welcome: React.FC<WelcomeProps> = ({ inputNumber, setInputNumber }) => {
           <p>Scegli il numero degli esercizi</p>
           <div className="manageRow">
             <input
+              className="inputNumber"
               type="number"
               value={inputNumber ?? ""}
               onChange={(e) => setInputNumber(parseInt(e.target.value) || null)}
