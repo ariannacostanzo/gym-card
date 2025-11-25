@@ -24,17 +24,3 @@ function App() {
 }
 
 export default App;
-
-/**
- * L'idea è quella di dare un messaggio iniziale e fare scegliere all'utente
- * quante colonne vuole in base a quanti esercizi ha, in caso resettare gli esercizi
- * Salvare con lo storage del web
- *  useEffect(() => {
-    localStorage.setItem("mealNotes", JSON.stringify(texts));
-  }, [texts]);
-
-  const [savedMeals, setSavedMeals] = useState<Day[]>(() => {
-    const saved = localStorage.getItem("SavedMeals");
-    return saved ? JSON.parse(saved) : emptyMeals;
-  });
- */

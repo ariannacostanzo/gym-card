@@ -26,7 +26,6 @@ const Table: React.FC<TableProps> = ({ tableNumber }) => {
     return [];
   });
 
-  // Aggiorna tableData quando tableNumber cambia, preservando i dati esistenti
   useEffect(() => {
     if (!tableNumber || tableNumber <= 0) return;
 
