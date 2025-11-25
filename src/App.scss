@@ -1,0 +1,161 @@
+//* General
+
+$background-color: purple;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 2rem;
+}
+
+p {
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  border: none;
+  background: $background-color;
+  border-radius: 20px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+}
+
+//* Header
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+
+  &__input {
+    width: 50px;
+  }
+
+  &__button-container {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.arrow {
+  text-align: right;
+  margin-top: -35px;
+
+  &__button {
+    padding-bottom: 4px;
+  }
+}
+
+//* Table
+
+.table {
+  font-size: 12px;
+  margin: 0 auto;
+
+  &__head {
+    display: flex;
+
+    div {
+      width: 100px;
+      border: 1px solid white;
+      padding: 0.2rem 0.5rem;
+      background-color: $background-color;
+    }
+  }
+
+  &__row {
+    display: flex;
+  }
+
+  &__input {
+    font-size: inherit;
+    width: 100px;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid white;
+  }
+}
+
+//* Timer
+
+.timer {
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__text {
+    text-align: center;
+    margin: 3rem 0;
+    font-size: 25px;
+    border-radius: 50%;
+    border: 1px solid white;
+    padding: 20px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+//* Settings
+
+.settings {
+  &__icon {
+    cursor: pointer;
+    width: 30px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+.settings__popup {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  background-color: #242424;
+  border: 1px solid white;
+  width: 85%;
+  height: 40vh;
+  border-radius: 16px;
+  transition: all 0.2s;
+  opacity: 0;
+  visibility: hidden;
+  padding: 2rem;
+
+  &:target {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    text-decoration: none;
+    border: 1px solid white;
+    border-radius: 50%;
+    color: inherit;
+    padding: 0 10px;
+  }
+}

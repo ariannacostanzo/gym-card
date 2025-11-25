@@ -28,14 +28,14 @@ const Timer: FC = () => {
 
   return (
     <>
-      <div>
-        <div className="timerButton">
+      <div className="timer" id="timer">
+        <div className="timer__button">
           <button className="button" onClick={startTimer}>
             {text}
           </button>
         </div>
         {timer > 0 && (
-          <div className="timer">
+          <div className="timer__text">
             <span>{timer} s</span>
           </div>
         )}

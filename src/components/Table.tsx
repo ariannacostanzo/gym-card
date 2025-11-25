@@ -56,44 +56,34 @@ const Table: React.FC<TableProps> = ({ tableNumber }) => {
     });
   };
 
-  const generateTable = () => {
-    console.log("genera tabella");
-  };
-
-  useEffect(() => {
-    if (tableNumber != null && tableNumber > 0) {
-      generateTable();
-    }
-  }, [tableNumber]);
-
   return (
     <>
       {tableNumber && tableNumber > 0 && (
         <div className="table">
-          <div className="tableHead">
+          <div className="table__head">
             <div>Esercizio</div>
             <div>Numero ripetizioni</div>
             <div>Recupero</div>
           </div>
-          <div className="tableBody">
+          <div className="table__body">
             {tableData.map((row, index) => (
-              <div key={index} className="tableRow">
+              <div key={index} className="table__row">
                 <input
-                  className="inputTable"
+                  className="table__input"
                   type="text"
                   placeholder="Nome Esercizio"
                   value={row.nome}
                   onChange={(e) => handleInputChange(index, "nome", e.target.value)}
                 />
                 <input
-                  className="inputTable"
+                  className="table__input"
                   type="text"
                   placeholder="Ripetizioni"
                   value={row.ripetizioni}
                   onChange={(e) => handleInputChange(index, "ripetizioni", e.target.value)}
                 />
                 <input
-                  className="inputTable"
+                  className="table__input"
                   type="text"
                   placeholder="Tempo Recupero"
                   value={row.recupero}

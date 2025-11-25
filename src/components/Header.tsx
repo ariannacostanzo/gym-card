@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-interface WelcomeProps {
+interface HeaderProps {
   inputNumber: number | null;
   setInputNumber: (value: number | null) => void;
 }
 
-const Welcome: React.FC<WelcomeProps> = ({ inputNumber, setInputNumber }) => {
+const Header: React.FC<HeaderProps> = ({ inputNumber, setInputNumber }) => {
   const [headHidden, setHeadHidden] = useState(false);
 
   return (
@@ -13,15 +13,15 @@ const Welcome: React.FC<WelcomeProps> = ({ inputNumber, setInputNumber }) => {
       {!headHidden && (
         <>
           <p>Scegli il numero degli esercizi</p>
-          <div className="manageRow">
+          <div className="header">
             <input
-              className="inputNumber"
+              className="header__input"
               type="number"
               value={inputNumber ?? ""}
               onChange={(e) => setInputNumber(parseInt(e.target.value) || null)}
               name="tableNumber"
             />
-            <div className="buttonManager">
+            <div className="header__button-container">
               <button className="button" onClick={() => setInputNumber(null)}>
                 Reset
               </button>
@@ -32,10 +32,12 @@ const Welcome: React.FC<WelcomeProps> = ({ inputNumber, setInputNumber }) => {
       )}
       {headHidden && (
         <div className="arrow">
-          <button onClick={() => setHeadHidden(false)}>&darr;</button>
+          <button className="arrow__button" onClick={() => setHeadHidden(false)}>
+            &darr;
+          </button>
         </div>
       )}
     </>
   );
 };
-export default Welcome;
+export default Header;
