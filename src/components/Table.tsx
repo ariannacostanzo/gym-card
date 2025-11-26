@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 interface TableProps {
   tableNumber: number | null;
+  primaryColor: string;
+  borderColor: string;
 }
 
 type TableRowData = {
@@ -11,7 +13,7 @@ type TableRowData = {
   recupero: string;
 };
 
-const Table: React.FC<TableProps> = ({ tableNumber }) => {
+const Table: React.FC<TableProps> = ({ tableNumber, primaryColor, borderColor }) => {
   const [tableData, setTableData] = useState<TableRowData[]>(() => {
     const savedData = localStorage.getItem("tableData");
     if (savedData) return JSON.parse(savedData);
@@ -61,9 +63,9 @@ const Table: React.FC<TableProps> = ({ tableNumber }) => {
       {tableNumber && tableNumber > 0 && (
         <div className="table">
           <div className="table__head">
-            <div>Esercizio</div>
-            <div>Numero ripetizioni</div>
-            <div>Recupero</div>
+            <div style={{ backgroundColor: primaryColor, borderColor }}>Esercizio</div>
+            <div style={{ backgroundColor: primaryColor, borderColor }}>Numero ripetizioni</div>
+            <div style={{ backgroundColor: primaryColor, borderColor }}>Recupero</div>
           </div>
           <div className="table__body">
             {tableData.map((row, index) => (
@@ -74,6 +76,7 @@ const Table: React.FC<TableProps> = ({ tableNumber }) => {
                   placeholder="Nome Esercizio"
                   value={row.nome}
                   onChange={(e) => handleInputChange(index, "nome", e.target.value)}
+                  style={{ borderColor }}
                 />
                 <input
                   className="table__input"
@@ -81,6 +84,7 @@ const Table: React.FC<TableProps> = ({ tableNumber }) => {
                   placeholder="Ripetizioni"
                   value={row.ripetizioni}
                   onChange={(e) => handleInputChange(index, "ripetizioni", e.target.value)}
+                  style={{ borderColor }}
                 />
                 <input
                   className="table__input"
@@ -88,6 +92,7 @@ const Table: React.FC<TableProps> = ({ tableNumber }) => {
                   placeholder="Tempo Recupero"
                   value={row.recupero}
                   onChange={(e) => handleInputChange(index, "recupero", e.target.value)}
+                  style={{ borderColor }}
                 />
               </div>
             ))}

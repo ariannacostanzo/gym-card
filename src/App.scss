@@ -8,6 +8,12 @@ $background-color: purple;
 
 body {
   margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.body {
+  width: 100%;
+  height: 100vh;
   padding: 2rem;
 }
 
@@ -17,6 +23,7 @@ p {
 
 button {
   cursor: pointer;
+  color: inherit;
 }
 
 .button {
@@ -25,7 +32,7 @@ button {
   align-items: center;
   padding: 6px 12px;
   border: none;
-  background: $background-color;
+  // background: $background-color;
   border-radius: 20px;
 }
 
@@ -64,7 +71,6 @@ button {
 
 .hide-header__hide-button {
   background-color: rgba(128, 128, 128, 0.521);
-  color: white;
   padding: 6px 10px;
   cursor: pointer;
   user-select: none;
@@ -82,7 +88,6 @@ button {
   border: none;
   font-size: 20px;
   background-color: rgba(128, 128, 128, 0.521);
-  color: white;
   padding: 5px 15px;
   border-radius: 50%;
 }
@@ -102,6 +107,14 @@ button {
 
 .header__input {
   width: 60px;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
 }
 
 .header__button-container {
@@ -109,20 +122,66 @@ button {
   gap: 10px;
 }
 
+.number-control {
+  display: flex;
+  align-items: center;
+}
+
+.number-left::before,
+.number-right::after {
+  content: attr(data-content);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(128, 128, 128, 0.295);
+  width: 20px;
+  color: white;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.number-left::before {
+  content: "-";
+}
+
+.number-right::after {
+  content: "+";
+}
+
+.number-quantity {
+  cursor: pointer;
+  text-align: center;
+  padding: 0.25rem;
+  border: 0;
+  width: 50px;
+  -moz-appearance: textfield;
+  border-top: 1px solid rgba(128, 128, 128, 0.295);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.295);
+}
+
+.number-left:hover::before,
+.number-right:hover::after {
+  background-color: #666666;
+}
+
 //* Table
 
 .table {
   font-size: 12px;
   margin: 0 auto;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #242424;
 
   &__head {
     display: flex;
 
     div {
       width: 100px;
-      border: 1px solid white;
-      padding: 0.2rem 0.5rem;
-      background-color: $background-color;
+      border-width: 1px;
+      border-style: solid;
+      padding: 0.2rem 0.2rem;
+      // background-color: $background-color;
     }
   }
 
@@ -133,8 +192,9 @@ button {
   &__input {
     font-size: inherit;
     width: 100px;
-    padding: 0.2rem 0.5rem;
-    border: 1px solid white;
+    padding: 0.2rem 0.2rem;
+    border-width: 1px;
+    border-style: solid;
   }
 }
 
@@ -152,10 +212,11 @@ button {
     margin: 3rem 0;
     font-size: 25px;
     border-radius: 50%;
-    border: 1px solid white;
+    border-width: 1px;
+    border-style: solid;
     padding: 20px;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,10 +238,11 @@ button {
 .settings__popup {
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 25%;
   transform: translate(-50%, -50%);
-  background-color: #242424;
-  border: 1px solid white;
+  background-color: inherit;
+  border-width: 1px;
+  border-style: solid;
   width: 85%;
   height: 40vh;
   border-radius: 16px;
@@ -200,9 +262,128 @@ button {
     right: 5px;
     font-size: 20px;
     text-decoration: none;
-    border: 1px solid white;
+    border-width: 1px;
+    border-style: solid;
     border-radius: 50%;
     color: inherit;
     padding: 0 10px;
   }
+
+  &__content {
+    &__setting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.7rem 0;
+    }
+  }
+}
+
+.color-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-color: transparent;
+  background-color: transparent;
+  outline: 0;
+}
+
+/* Theme Switch */
+/* The switch - the box around the slider */
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 4em;
+  height: 2.2em;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2a2a2a;
+  transition: 0.4s;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 20px;
+  left: 0.5em;
+  bottom: 0.5em;
+  transition: 0.4s;
+  transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
+  box-shadow: inset 8px -4px 0px 0px #fff;
+}
+
+.switch input:checked + .slider {
+  background-color: #00a6ff;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(1.8em);
+  box-shadow: inset 15px -4px 0px 15px #ffcf48;
+}
+
+.star {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  width: 5px;
+  transition: all 0.4s;
+  height: 5px;
+}
+
+.star_1 {
+  left: 2.5em;
+  top: 0.5em;
+}
+
+.star_2 {
+  left: 2.2em;
+  top: 1.2em;
+}
+
+.star_3 {
+  left: 3em;
+  top: 0.9em;
+}
+
+.switch input:checked ~ .slider .star {
+  opacity: 0;
+}
+
+.cloud {
+  width: 3.5em;
+  position: absolute;
+  bottom: -1.4em;
+  left: -1.1em;
+  opacity: 0;
+  transition: all 0.4s;
+}
+
+.switch input:checked ~ .slider .cloud {
+  opacity: 1;
 }

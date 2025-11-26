@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import { useEffect, useState, useRef, type FC } from "react";
-const Timer: FC = () => {
+import { useEffect, useState, useRef } from "react";
+
+interface TimerProps {
+  primaryColor: string;
+  borderColor: string;
+}
+
+const Timer: React.FC<TimerProps> = ({ primaryColor, borderColor }) => {
   const [timer, setTimer] = useState<number>(0);
   const [text, setText] = useState<string>("Avvia Timer");
 
@@ -30,12 +36,12 @@ const Timer: FC = () => {
     <>
       <div className="timer" id="timer">
         <div className="timer__button">
-          <button className="button" onClick={startTimer}>
+          <button className="button" style={{ backgroundColor: primaryColor }} onClick={startTimer}>
             {text}
           </button>
         </div>
         {timer > 0 && (
-          <div className="timer__text">
+          <div className="timer__text" style={{ borderColor }}>
             <span>{timer} s</span>
           </div>
         )}
