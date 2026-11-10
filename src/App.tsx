@@ -39,6 +39,20 @@ function App() {
     else root.setAttribute("data-theme", settings.theme);
     root.style.setProperty("--accent", settings.accent);
     root.style.setProperty("--accent-contrast", contrastColor(settings.accent));
+
+    // Colore delle barre di sistema (status bar / navigation bar): uguale allo sfondo del tema attivo.
+    const syncThemeColor = () => {
+      const bg = getComputedStyle(root).getPropertyValue("--bg").trim();
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.remove());
+      const meta = document.createElement("meta");
+      meta.name = "theme-color";
+      meta.content = bg;
+      document.head.appendChild(meta);
+    };
+    syncThemeColor();
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    media.addEventListener("change", syncThemeColor);
+    return () => media.removeEventListener("change", syncThemeColor);
   }, [settings.theme, settings.accent]);
 
   // --- giorni ---
