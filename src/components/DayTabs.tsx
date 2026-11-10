@@ -46,9 +46,7 @@ const DayTabs: React.FC<DayTabsProps> = ({ days, activeDayId, onSelect, onAdd, o
           <button
             type="button"
             className="icon-button icon-button--danger"
-            onClick={() => {
-              if (window.confirm(`Eliminare "${active.name || "questo giorno"}" e i suoi esercizi?`)) onDelete();
-            }}
+            onClick={onDelete}
             aria-label="Elimina giorno"
           >
             <TrashIcon />

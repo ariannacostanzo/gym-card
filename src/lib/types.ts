@@ -9,7 +9,6 @@ export interface Exercise {
   weight: string;
   /** Recupero tra le serie, in secondi (0 = nessun recupero automatico). */
   rest: number;
-  note: string;
   /** Serie già completate nell'allenamento in corso. */
   done: number;
 }
@@ -40,4 +39,15 @@ export interface RestState {
   endsAt: number;
   total: number;
   label: string;
+}
+
+export interface ConfirmRequest {
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  /** `null` = nessun pulsante "Annulla" (finestra solo informativa). */
+  cancelLabel?: string | null;
+  /** Pulsante di conferma rosso, per le azioni distruttive. */
+  danger?: boolean;
+  onConfirm?: () => void;
 }

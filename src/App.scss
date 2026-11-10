@@ -30,9 +30,14 @@
 :root {
   --accent: #7c5cff;
   --accent-contrast: #ffffff;
+  // Colori fissi dei campi dell'esercizio (indipendenti dal colore scelto), per distinguerli a colpo d'occhio.
+  --c-reps: #1fa38f;
+  --c-kg: #f08a2c;
+  --c-rest: #3b82f6;
   --radius: 14px;
   --radius-sm: 10px;
   --tap: 44px;
+  --transition: 0.3s ease-in-out;
   @include theme-light;
 }
 
@@ -122,6 +127,7 @@ button {
 // ---------------------------------------------------------------------------------------------
 
 .input {
+  transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
   width: 100%;
   min-height: var(--tap);
   padding: 8px 12px;
@@ -143,6 +149,7 @@ button {
 }
 
 .icon-button {
+  transition: background-color var(--transition), color var(--transition);
   display: inline-grid;
   place-items: center;
   flex: none;
@@ -164,6 +171,7 @@ button {
 }
 
 .button {
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -186,6 +194,12 @@ button {
     }
   }
 
+  &--danger-solid {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: #fff;
+  }
+
   &--danger {
     background: transparent;
     color: var(--danger);
@@ -194,6 +208,7 @@ button {
 }
 
 .link-button {
+  transition: color var(--transition), opacity var(--transition);
   padding: 4px 0;
   background: none;
   border: 0;
@@ -206,6 +221,7 @@ button {
 }
 
 .chip {
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
   min-height: 40px;
   padding: 0 16px;
   background: var(--surface-2);
@@ -255,6 +271,11 @@ button {
     border-radius: 999px;
     font-weight: 600;
     white-space: nowrap;
+    transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+
+    &:hover:not(&--active) {
+      border-color: var(--accent);
+    }
 
     &--active {
       background: var(--accent);
@@ -344,18 +365,25 @@ button {
 }
 
 .exercise {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 14px;
-  background: var(--surface);
+  gap: 14px;
+  padding: 14px 14px 16px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
+    var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: border-color 0.2s;
+  overflow: hidden;
+  transition: border-color var(--transition), background-color var(--transition);
 
   &--complete {
     border-color: var(--accent);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%),
+      var(--surface);
   }
 
   &__top {
@@ -370,9 +398,9 @@ button {
     flex: none;
     width: 28px;
     height: 28px;
-    background: var(--surface-2);
+    background: color-mix(in srgb, var(--accent) 22%, var(--surface-2));
     border-radius: 50%;
-    color: var(--muted);
+    color: var(--accent);
     font-size: 0.85rem;
     font-weight: 700;
 
@@ -435,6 +463,31 @@ button {
   .input {
     text-align: center;
     padding-inline: 4px;
+    border-color: color-mix(in srgb, var(--field-color) 35%, var(--border));
+    background: color-mix(in srgb, var(--field-color) 8%, var(--surface-2));
+
+    &:focus {
+      border-color: var(--field-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--field-color) 25%, transparent);
+    }
+  }
+
+  &__label {
+    color: var(--field-color);
+  }
+
+  --field-color: var(--accent);
+
+  &--reps {
+    --field-color: var(--c-reps);
+  }
+
+  &--kg {
+    --field-color: var(--c-kg);
+  }
+
+  &--rest {
+    --field-color: var(--c-rest);
   }
 }
 
@@ -444,12 +497,16 @@ button {
   width: 48px;
   height: 48px;
   background: var(--surface-2);
-  border: 2px solid var(--border);
+  border: 2px solid color-mix(in srgb, var(--accent) 45%, var(--border));
   border-radius: 50%;
-  color: var(--muted);
+  color: var(--accent);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition), transform 0.1s ease-in-out;
+
+  &:hover:not(&--done) {
+    border-color: var(--accent);
+  }
 
   &:active {
     transform: scale(0.94);
@@ -628,6 +685,11 @@ button {
     border-radius: 8px;
     font-weight: 600;
     color: var(--muted);
+    transition: background-color var(--transition), color var(--transition), box-shadow var(--transition);
+
+    &:hover:not(&--active) {
+      color: var(--text);
+    }
 
     &--active {
       background: var(--surface);
@@ -649,6 +711,11 @@ button {
   padding: 0;
   border: 3px solid transparent;
   border-radius: 50%;
+  transition: border-color var(--transition), transform var(--transition);
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   &--active {
     border-color: var(--text);
@@ -677,7 +744,7 @@ button {
   background: var(--border);
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color var(--transition);
 
   &::after {
     content: "";
@@ -688,7 +755,7 @@ button {
     height: 22px;
     background: #fff;
     border-radius: 50%;
-    transition: transform 0.2s;
+    transition: transform var(--transition);
   }
 
   &:checked {
@@ -703,5 +770,59 @@ button {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
+// Finestra di conferma (<dialog>)
+// ---------------------------------------------------------------------------------------------
+
+.confirm {
+  width: min(88vw, 380px);
+  padding: 0;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 55%);
+  }
+
+  &[open] {
+    animation: confirm-in var(--transition);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+
+  &__message {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+  }
+}
+
+@keyframes confirm-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
   }
 }

@@ -61,9 +61,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
           <button
             type="button"
             className="icon-button icon-button--danger"
-            onClick={() => {
-              if (window.confirm(`Eliminare "${exercise.name || "questo esercizio"}"?`)) onDelete();
-            }}
+            onClick={onDelete}
             aria-label="Elimina esercizio"
           >
             <TrashIcon />
@@ -72,7 +70,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
       </div>
 
       <div className="exercise__fields">
-        <label className="field">
+        <label className="field field--sets">
           <span className="field__label">Serie</span>
           <input
             className="input"
@@ -87,7 +85,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
             }}
           />
         </label>
-        <label className="field">
+        <label className="field field--reps">
           <span className="field__label">Rip.</span>
           <input
             className="input"
@@ -97,7 +95,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
             placeholder="10"
           />
         </label>
-        <label className="field">
+        <label className="field field--kg">
           <span className="field__label">Kg</span>
           <input
             className="input"
@@ -108,7 +106,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
             placeholder="—"
           />
         </label>
-        <label className="field">
+        <label className="field field--rest">
           <span className="field__label">Rec. (s)</span>
           <input
             className="input"
@@ -137,15 +135,6 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
           </button>
         ))}
       </div>
-
-      <input
-        className="input exercise__note"
-        type="text"
-        value={exercise.note}
-        onChange={(e) => onChange({ note: e.target.value })}
-        placeholder="Note (macchinario, regolazioni, sensazioni…)"
-        aria-label="Note"
-      />
     </article>
   );
 };

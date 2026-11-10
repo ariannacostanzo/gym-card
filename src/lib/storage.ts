@@ -16,7 +16,6 @@ export const newExercise = (): Exercise => ({
   reps: "",
   weight: "",
   rest: 90,
-  note: "",
   done: 0,
 });
 
@@ -67,7 +66,6 @@ function sanitizeExercise(raw: unknown): Exercise | null {
     reps: str(r.reps),
     weight: str(r.weight),
     rest: toInt(r.rest, 90, 0, 3600),
-    note: str(r.note),
     done: toInt(r.done, 0, 0, sets),
   };
 }

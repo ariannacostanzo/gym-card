@@ -5,6 +5,7 @@ import DayTabs from "./components/DayTabs";
 import Table from "./components/Table";
 import Timer from "./components/Timer";
 import Settings from "./components/Settings";
+import ConfirmDialog from "./components/ConfirmDialog";
 import { alarm, unlockAudio } from "./lib/audio";
 import { contrastColor } from "./lib/color";
 import {
@@ -20,13 +21,14 @@ import {
   sanitizeWorkout,
 } from "./lib/storage";
 import { useStoredState } from "./lib/useStoredState";
-import type { Day, Exercise, RestState, Settings as SettingsData, Workout } from "./lib/types";
+import type { ConfirmRequest, Day, Exercise, RestState, Settings as SettingsData, Workout } from "./lib/types";
 
 function App() {
   const [workout, setWorkout] = useStoredState<Workout>(WORKOUT_KEY, loadWorkout);
   const [settings, setSettings] = useStoredState<SettingsData>(SETTINGS_KEY, loadSettings);
   const [rest, setRest] = useState<RestState | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
 
   const activeDay = workout.days.find((d) => d.id === workout.activeDayId) ?? workout.days[0];
 
@@ -129,19 +131,39 @@ function App() {
   };
 
   const importData = async (file: File) => {
+    let imported: Workout | null = null;
+    let importedSettings: unknown;
     try {
       const data: unknown = JSON.parse(await file.text());
       const source = data && typeof data === "object" ? (data as { workout?: unknown; settings?: unknown }) : {};
-      const imported = sanitizeWorkout(source.workout);
-      if (!imported) throw new Error("formato non valido");
-      if (!window.confirm("Importare questo file? La scheda attuale verrà sostituita.")) return;
-      setWorkout(imported);
-      if (source.settings) setSettings(sanitizeSettings(source.settings));
-      setRest(null);
-      setSettingsOpen(false);
+      imported = sanitizeWorkout(source.workout);
+      importedSettings = source.settings;
     } catch {
-      window.alert("File non valido: scegli un backup esportato da questa app.");
+      imported = null;
     }
+
+    if (!imported) {
+      setConfirm({
+        title: "File non valido",
+        message: "Scegli un backup esportato da questa app (file .json).",
+        confirmLabel: "Ok",
+        cancelLabel: null,
+      });
+      return;
+    }
+
+    const workoutToImport = imported;
+    setConfirm({
+      title: "Importare il backup?",
+      message: "La scheda attuale verrà sostituita da quella del file.",
+      confirmLabel: "Importa",
+      onConfirm: () => {
+        setWorkout(workoutToImport);
+        if (importedSettings) setSettings(sanitizeSettings(importedSettings));
+        setRest(null);
+        setSettingsOpen(false);
+      },
+    });
   };
 
   const resetAll = () => {
@@ -149,6 +171,45 @@ function App() {
     setSettings(defaultSettings());
     setRest(null);
     setSettingsOpen(false);
+  };
+
+  // --- richieste di conferma (al posto di window.confirm) ---
+
+  const requestDeleteDay = () =>
+    setConfirm({
+      title: "Eliminare il giorno?",
+      message: `"${activeDay.name || "Giorno"}" e tutti i suoi esercizi verranno eliminati.`,
+      confirmLabel: "Elimina",
+      danger: true,
+      onConfirm: deleteDay,
+    });
+
+  const requestDeleteExercise = (exerciseId: string) => {
+    const exercise = activeDay.exercises.find((e) => e.id === exerciseId);
+    setConfirm({
+      title: "Eliminare l'esercizio?",
+      message: `"${exercise?.name || "Esercizio senza nome"}" verrà rimosso dalla scheda.`,
+      confirmLabel: "Elimina",
+      danger: true,
+      onConfirm: () => deleteExercise(exerciseId),
+    });
+  };
+
+  const requestResetAll = () =>
+    setConfirm({
+      title: "Cancellare tutto?",
+      message: "Scheda e impostazioni verranno eliminate da questo dispositivo. L'azione non si può annullare.",
+      confirmLabel: "Cancella tutto",
+      danger: true,
+      onConfirm: resetAll,
+    });
+
+  const closeConfirm = () => setConfirm(null);
+
+  const acceptConfirm = () => {
+    const action = confirm?.onConfirm;
+    setConfirm(null);
+    action?.();
   };
 
   return (
@@ -161,14 +222,14 @@ function App() {
           onSelect={selectDay}
           onAdd={addDay}
           onRename={(name) => updateDay(activeDay.id, (d) => ({ ...d, name }))}
-          onDelete={deleteDay}
+          onDelete={requestDeleteDay}
         />
         <Table
           day={activeDay}
           onChange={patchExercise}
           onToggleSet={toggleSet}
           onMove={moveExercise}
-          onDelete={deleteExercise}
+          onDelete={requestDeleteExercise}
           onAdd={addExercise}
           onResetProgress={resetProgress}
         />
@@ -181,8 +242,9 @@ function App() {
         onClose={() => setSettingsOpen(false)}
         onExport={exportData}
         onImport={importData}
-        onReset={resetAll}
+        onReset={requestResetAll}
       />
+      {confirm && <ConfirmDialog request={confirm} onCancel={closeConfirm} onConfirm={acceptConfirm} />}
     </div>
   );
 }

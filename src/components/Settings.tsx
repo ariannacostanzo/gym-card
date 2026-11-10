@@ -131,9 +131,7 @@ const Settings: React.FC<SettingsProps> = ({ open, settings, onChange, onClose, 
             <button
               type="button"
               className="button button--danger"
-              onClick={() => {
-                if (window.confirm("Cancellare tutta la scheda e le impostazioni? L'azione non si può annullare.")) onReset();
-              }}
+              onClick={onReset}
             >
               Cancella tutto
             </button>
